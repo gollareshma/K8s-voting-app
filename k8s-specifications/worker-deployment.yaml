@@ -17,3 +17,20 @@ spec:
       containers:
       - image: dockersamples/examplevotingapp_worker
         name: worker
+
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+
+        livenessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - ps aux | grep worker
+          initialDelaySeconds: 10
+          periodSeconds: 10
