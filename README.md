@@ -1,65 +1,119 @@
-# Example Voting App
+# Kubernetes Voting App with CI/CD & Monitoring
 
-A simple distributed application running across multiple Docker containers.
+## Project Overview
+Cloud-native voting application deployed on Kubernetes with CI/CD automation, monitoring, ingress, and alerting.
 
-## Getting started
+---
 
-Download [Docker Desktop](https://www.docker.com/products/docker-desktop) for Mac or Windows. [Docker Compose](https://docs.docker.com/compose) will be automatically installed. On Linux, make sure you have the latest version of [Compose](https://docs.docker.com/compose/install/).
+## Tech Stack
 
-This solution uses Python, Node.js, .NET, with Redis for messaging and Postgres for storage.
+- Kubernetes
+- Docker
+- GitHub Actions
+- Prometheus
+- Grafana
+- NGINX Ingress
+- Docker Hub
 
-Run in this directory to build and run the app:
+---
 
-```shell
-docker compose up
+## Features
+
+- Kubernetes deployment
+- CI/CD pipeline using GitHub Actions
+- Dockerized microservices
+- Prometheus monitoring
+- Grafana dashboards
+- Alerting system
+- Ingress routing
+- Zero trust network policies
+
+---
+
+## Docker Hub Repositories
+
+- vote
+- result
+- worker
+
+---
+
+## Monitoring Stack
+
+- Prometheus
+- Grafana
+- Alert Rules
+- Email Notifications
+
+---
+
+## Screenshots
+
+### CPU Usage
+![CPU Usage](screenshots/CPU%20usage.png)
+
+### Memory Usage
+![Memory Usage](screenshots/Memory%20Usage.png)
+
+### Pod Status
+![Pod Status](screenshots/Pod%20Status.png)
+
+### Total Pods
+![Total Pods](screenshots/Total%20Pods.png)
+
+### Alert Rules
+![Alert Rules](screenshots/Alert%20Rules%20page.png)
+
+### Notification Configuration
+![Notification](screenshots/Notification%20Configuration%20page.png)
+
+### Docker Hub
+![Docker Hub](screenshots/Docker%20Hub%20repositories.png)
+
+### GitHub Actions
+![GitHub Actions](screenshots/GitHub%20Actions%20successful%20pipeline.png)
+
+### Vote Page
+![Vote Page](screenshots/Vote%20page.png)
+
+### Result Page
+![Result Page](screenshots/Result%20page.png)
+
+---
+
+## Commands Used
+
+### Check Pods
+
+```bash
+kubectl get pods -n dev
 ```
 
-The `vote` app will be running at [http://localhost:8080](http://localhost:8080), and the `results` will be at [http://localhost:8081](http://localhost:8081).
+### Check Services
 
-Alternately, if you want to run it on a [Docker Swarm](https://docs.docker.com/engine/swarm/), first make sure you have a swarm. If you don't, run:
-
-```shell
-docker swarm init
+```bash
+kubectl get svc -n monitoring
 ```
 
-Once you have your swarm, in this directory run:
+### Check Ingress
 
-```shell
-docker stack deploy --compose-file docker-stack.yml vote
+```bash
+kubectl get ingress -n dev
 ```
 
-## Run the app in Kubernetes
+---
 
-The folder k8s-specifications contains the YAML specifications of the Voting App's services.
+## CI/CD Pipeline
 
-Run the following command to create the deployments and services. Note it will create these resources in your current namespace (`default` if you haven't changed it.)
+GitHub Actions automatically:
+- Builds Docker images
+- Pushes images to Docker Hub
+- Deploys updates to Kubernetes
 
-```shell
-kubectl create -f k8s-specifications/
-```
+---
 
-The `vote` web app is then available on port 31000 on each host of the cluster, the `result` web app is available on port 31001.
+## Monitoring & Alerting
 
-To remove them, run:
-
-```shell
-kubectl delete -f k8s-specifications/
-```
-
-## Architecture
-
-![Architecture diagram](architecture.excalidraw.png)
-
-* A front-end web app in [Python](/vote) which lets you vote between two options
-* A [Redis](https://hub.docker.com/_/redis/) which collects new votes
-* A [.NET](/worker/) worker which consumes votes and stores them in…
-* A [Postgres](https://hub.docker.com/_/postgres/) database backed by a Docker volume
-* A [Node.js](/result) web app which shows the results of the voting in real time
-
-## Notes
-
-The voting application only accepts one vote per client browser. It does not register additional votes if a vote has already been submitted from a client.
-
-This isn't an example of a properly architected perfectly designed distributed app... it's just a simple
-example of the various types of pieces and languages you might see (queues, persistent data, etc), and how to
-deal with them in Docker at a basic level.
+- Prometheus collects metrics
+- Grafana visualizes metrics
+- Alerts configured for pod failures
