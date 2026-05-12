@@ -1,0 +1,19 @@
+elasticsearch:
+  host: elasticsearch-master.logging.svc.cluster.local
+  port: 9200
+  scheme: http
+  sslVerify: false
+
+env:
+  - name: FLUENT_ELASTICSEARCH_SUPPRESS_TYPE_NAME
+    value: "true"
+
+resources:
+  limits:
+    memory: 300Mi
+  requests:
+    cpu: 100m
+    memory: 200Mi
+
+tolerations:
+  - operator: Exists
