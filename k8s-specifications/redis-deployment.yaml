@@ -1,9 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app: redis
   name: redis
+  namespace: dev
 spec:
   replicas: 1
   selector:
@@ -15,8 +14,9 @@ spec:
         app: redis
     spec:
       containers:
-      - image: redis
-        name: redis
+      - name: redis
+        image: redis:alpine
+        args: ["redis-server", "--appendonly", "yes"]
         ports:
         - containerPort: 6379
         resources:
@@ -26,3 +26,9 @@ spec:
           limits:
             memory: "128Mi"
             cpu: "250m"
+        volumeMounts:
+        - name: redis-data
+          mountPath: /data
+      volumes:
+      - name: redis-data
+        emptyDir: {}
